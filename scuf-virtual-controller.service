@@ -1,0 +1,15 @@
+[Unit]
+Description=SCUF Envision Pro Virtual Controller Bridge
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/cotto/side_projects/cacique-envision-pro-linux/scuf_virtual_pad.py
+Restart=always
+RestartSec=5
+User=root
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
