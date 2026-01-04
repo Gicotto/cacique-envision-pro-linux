@@ -142,6 +142,42 @@ lsmod | grep uinput
 ### Triggers not working in games
 The virtual controller uses the exact same axis specifications as an Xbox Elite 2 controller (0-1023 range for triggers). If triggers don't work, check the game's controller configuration.
 
+## Steam Configuration
+
+### Hide the physical SCUF controller from Steam
+
+Since the bridge creates a virtual controller, you must prevent Steam from detecting the physical SCUF device to avoid having both controllers appear in Steam.
+
+**Create a udev rule to hide the physical device:**
+
+```bash
+sudo nano /etc/udev/rules.d/69-scuf-rename.rules
+```
+
+Add these lines:
+```
+# Rename SCUF physical controller so Steam doesn't recognize it
+SUBSYSTEM=="input", ATTRS{idVendor}=="2e95", ATTRS{idProduct}=="434d", KERNEL=="event*", ENV{ID_INPUT_JOYSTICK}="", ENV{ID_INPUT_GAMEPAD}="", ENV{ID_INPUT_KEY}="1", ENV{.INPUT_CLASS}="kbd", NAME="scuf-hidden-%k"
+SUBSYSTEM=="input", ATTRS{idVendor}=="2e95", ATTRS{idProduct}=="434d", KERNEL=="js*", MODE="0000", OPTIONS+="ignore_device"
+```
+
+**Reload udev rules:**
+```bash
+sudo udevadm control --reload-rules
+sudo udevadm trigger
+```
+
+**Restart Steam** and unplug/replug your controller.
+
+### Verify it worked
+
+In Steam Big Picture Mode:
+- Go to Settings → Controller → Controller Settings
+- You should only see "Virtual SCUF Envision Pro"
+- The physical "Gaming SCUF Envision Pro Controller" should NOT appear
+
+**Note**: This udev rule renames the physical device and removes its joystick/gamepad tags, making it invisible to Steam while still allowing the bridge script to access it.
+
 ## Configuration
 
 Edit `scuf_virtual_pad.py` to customize:
