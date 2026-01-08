@@ -2,9 +2,10 @@
 Description=SCUF Envision Pro Virtual Controller Bridge
 After=multi-user.target
 
+# Important! Update /file/path/to/scuf_virtual_pad.py to the correct file path
 [Service]
 Type=simple
-ExecStart=/usr/bin/python3 /home/cotto/side_projects/cacique-envision-pro-linux/scuf_virtual_pad.py
+ExecStart=/usr/bin/python3 /file/path/to/scuf_virtual_pad.py
 Restart=always
 RestartSec=5
 User=root

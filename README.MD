@@ -45,7 +45,11 @@ echo "uinput" | sudo tee /etc/modules-load.d/uinput.conf
    Update `EVDEV_PATH` and `HIDRAW_PATH` in `scuf_virtual_pad.py` if they differ from `/dev/input/event3` and `/dev/hidraw0`.
 
 2. **Install systemd service**:
-   
+
+
+   IMPORTANT!: Update file path in scuf-virtual-controller.service to where scuf_virtual_pad.py exists (default where the repo is /path-to-repo/path-to-file/scuf_virtual_pad.py)
+   Example: ExecStart=/usr/bin/python3 /file/path/to/scuf_virtual_pad.py -> ExecStart=/usr/bin/python3 /home/user/repo/scuf_virtual_pad.py
+
    ```bash
    # Copy service file to systemd directory
    sudo cp scuf-virtual-controller.service /etc/systemd/system/
@@ -198,4 +202,4 @@ MIT
 
 ## Credits
 
-Created for the SCUF Envision Pro controller on Arch Linux. Tested with Citron emulator.
+Created for the SCUF Envision Pro controller on Arch Linux. Tested with Citron emulator. Author: Julian Cotto
